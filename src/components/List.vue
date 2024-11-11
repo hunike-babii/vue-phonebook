@@ -1,15 +1,15 @@
 <template>
-    <div class="list">
+    <div class="list" v-for="item in list" :key="item.id">
         <el-card>
-            <div class="list-header">
+            <div class="list-header" >
                 <div class="list-information">
-                    <span>姓名</span>
-                    <span>电话号码</span>
+                    <span>{{ item.name }}</span>
+                    <span>{{ item.phone }}</span>
                 </div>
                 <div class="list-operate">
                     <el-icon :size="25" color="green"><PhoneFilled /></el-icon>
-                    <el-icon :size="25" color="blue"><Edit /></el-icon>
-                    <el-icon :size="25" color="red"><DeleteFilled /></el-icon>
+                    <el-icon :size="25" color="blue"><Edit @click="editContact(item)" /></el-icon>
+                    <el-icon :size="25" color="red"><DeleteFilled @click="deleteContact(item)" /></el-icon>
                 </div>
             </div>
         </el-card>
@@ -18,7 +18,21 @@
 
 <script>
     export default {
-        
+        props: {
+            list: {
+                type: Array,
+                required: true
+            }
+        },
+        emits: ['edit', 'delete'],
+        methods: {
+            editContact(item) {
+                this.$emit('edit', item)
+            },
+            deleteContact(item) {
+                this.$emit('delete', item)
+            }
+        }
     }
 </script>
 
@@ -31,5 +45,8 @@
     .list-operate {
         display: flex;
         gap: 10px;
+    }
+    .list {
+        margin-bottom: 10px;
     }
 </style>
